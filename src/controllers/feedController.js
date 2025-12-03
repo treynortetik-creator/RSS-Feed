@@ -2,6 +2,12 @@ const { v4: uuidv4 } = require('uuid');
 const { getDb } = require('../database/db');
 const RSSGenerator = require('../utils/rssGenerator');
 const WebpageScraper = require('../scrapers/webpageScraper');
+const TwitterScraper = require('../scrapers/twitterScraper');
+const LinkedInScraper = require('../scrapers/linkedinScraper');
+const RedditScraper = require('../scrapers/redditScraper');
+const YouTubeScraper = require('../scrapers/youtubeScraper');
+const GoogleNewsScraper = require('../scrapers/googleNewsScraper');
+const KeywordScraper = require('../scrapers/keywordScraper');
 const { detectFeedType } = require('../utils/feedDetector');
 
 const db = getDb();
@@ -16,7 +22,7 @@ exports.createFeed = async (req, res) => {
     }
 
     const feedId = uuidv4();
-    const detectedType = feed_type || detectFeedType(source_url);
+    const detectedType = feed_type || detectFeedType(source_url, config);
 
     // Insert feed into database
     db.run(
@@ -204,6 +210,24 @@ async function scrapeFeedContent(feedId, sourceUrl, feedType, config) {
 
   // Select appropriate scraper based on feed type
   switch (feedType) {
+    case 'twitter':
+      scraper = new TwitterScraper(sourceUrl, config);
+      break;
+    case 'linkedin':
+      scraper = new LinkedInScraper(sourceUrl, config);
+      break;
+    case 'reddit':
+      scraper = new RedditScraper(sourceUrl, config);
+      break;
+    case 'youtube':
+      scraper = new YouTubeScraper(sourceUrl, config);
+      break;
+    case 'google-news':
+      scraper = new GoogleNewsScraper(sourceUrl, config);
+      break;
+    case 'keyword':
+      scraper = new KeywordScraper(sourceUrl, config);
+      break;
     case 'webpage':
     default:
       scraper = new WebpageScraper(sourceUrl, config);

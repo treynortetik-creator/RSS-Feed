@@ -55,6 +55,33 @@ const initDatabase = () => {
         )
       `, (err) => {
         if (err) reject(err);
+      });
+
+      // Feed bundles table
+      db.run(`
+        CREATE TABLE IF NOT EXISTS feed_bundles (
+          id TEXT PRIMARY KEY,
+          name TEXT NOT NULL,
+          description TEXT,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+      `, (err) => {
+        if (err) reject(err);
+      });
+
+      // Bundle feeds junction table
+      db.run(`
+        CREATE TABLE IF NOT EXISTS bundle_feeds (
+          bundle_id TEXT NOT NULL,
+          feed_id TEXT NOT NULL,
+          added_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY (bundle_id, feed_id),
+          FOREIGN KEY (bundle_id) REFERENCES feed_bundles(id) ON DELETE CASCADE,
+          FOREIGN KEY (feed_id) REFERENCES feeds(id) ON DELETE CASCADE
+        )
+      `, (err) => {
+        if (err) reject(err);
         else resolve();
       });
     });

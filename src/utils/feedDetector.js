@@ -1,4 +1,9 @@
-function detectFeedType(url) {
+function detectFeedType(url, config = {}) {
+  // If keyword is provided in config, it's a keyword-based feed
+  if (config.keyword) {
+    return 'keyword';
+  }
+
   const urlLower = url.toLowerCase();
 
   if (urlLower.includes('linkedin.com/company')) {

@@ -112,8 +112,14 @@ BASE_URL=http://localhost:3000
 - Best results with nitter instances
 
 ### LinkedIn
-- Company pages: `https://linkedin.com/company/company-name`
-- Note: LinkedIn may require authentication for full access
+- ⚠️ **NOT SUPPORTED** - LinkedIn company pages are not supported
+- **Reason**: LinkedIn prohibits automated scraping and actively blocks it (403 errors)
+- **Legal**: Violates LinkedIn's Terms of Service
+- **See**: `LINKEDIN_RESEARCH.md` for full technical and legal analysis
+- **Alternatives**:
+  - Apply for LinkedIn Marketing API access (requires approval)
+  - Use authorized third-party services
+  - Manual content export
 
 ### YouTube
 - Channel URLs: `https://youtube.com/@username` or `https://youtube.com/channel/ID`

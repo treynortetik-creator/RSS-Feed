@@ -118,7 +118,16 @@ async function createFeed(sourceUrl, feedType) {
             await loadFeedDetail(data.id);
             switchView('detail');
         } else {
-            showToast(data.error || 'Failed to create feed', 'error');
+            // Show detailed error for unsupported platforms like LinkedIn
+            if (data.alternatives && data.details) {
+                let errorMsg = `${data.error}\n\nReason: ${data.reason}\n\n`;
+                errorMsg += 'Details:\n' + data.details.map(d => `• ${d}`).join('\n') + '\n\n';
+                errorMsg += 'Alternatives:\n' + data.alternatives.map(a => `• ${a}`).join('\n');
+                alert(errorMsg);
+                showToast(data.error, 'error');
+            } else {
+                showToast(data.error || 'Failed to create feed', 'error');
+            }
         }
     } catch (error) {
         console.error('Error creating feed:', error);

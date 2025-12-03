@@ -24,6 +24,26 @@ exports.createFeed = async (req, res) => {
     const feedId = uuidv4();
     const detectedType = feed_type || detectFeedType(source_url, config);
 
+    // Block LinkedIn feeds with clear explanation
+    if (detectedType === 'linkedin') {
+      return res.status(400).json({
+        error: 'LinkedIn company pages are not supported',
+        reason: 'LinkedIn prohibits automated scraping and requires official API access',
+        details: [
+          'LinkedIn actively blocks automated data collection (403 Forbidden errors)',
+          'Scraping violates LinkedIn Terms of Service and can result in account bans',
+          'LinkedIn uses heavy JavaScript rendering that cannot be scraped with basic tools'
+        ],
+        alternatives: [
+          'Apply for LinkedIn Marketing API access: https://learn.microsoft.com/en-us/linkedin/shared/authentication/getting-access',
+          'Use LinkedIn\'s native RSS features (if available for your account)',
+          'Use authorized third-party services that have API partnerships with LinkedIn',
+          'Manually export or copy content you need'
+        ],
+        documentation: 'See LINKEDIN_RESEARCH.md for full technical and legal analysis'
+      });
+    }
+
     // Insert feed into database
     db.run(
       `INSERT INTO feeds (id, name, source_url, feed_type, config, status)
@@ -214,8 +234,9 @@ async function scrapeFeedContent(feedId, sourceUrl, feedType, config) {
       scraper = new TwitterScraper(sourceUrl, config);
       break;
     case 'linkedin':
-      scraper = new LinkedInScraper(sourceUrl, config);
-      break;
+      // This should never be reached due to check in createFeed,
+      // but keeping as fallback for manual refresh attempts
+      throw new Error('LinkedIn scraping is not supported. See LINKEDIN_RESEARCH.md for details.');
     case 'reddit':
       scraper = new RedditScraper(sourceUrl, config);
       break;

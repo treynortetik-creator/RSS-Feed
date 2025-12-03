@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSS Feed Aggregator - Free RSS Generator</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">📡</span>
+                    <span class="logo-text">RSS.app</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="feeds">
+                    <span class="nav-icon">📰</span>
+                    <span>My Feeds</span>
+                </a>
+                <a href="#" class="nav-item" data-page="explore">
+                    <span class="nav-icon">🔍</span>
+                    <span>Explore</span>
+                </a>
+                <button class="btn-new-feed" id="newFeedBtn">
+                    ➕ New Feed
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="trial-info">
+                    <p><strong>Free Forever</strong></p>
+                    <p>Unlimited feeds</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- RSS Generator View -->
+            <div id="generatorView" class="view active">
+                <header class="content-header">
+                    <div class="tabs">
+                        <button class="tab active">📡 RSS Generator</button>
+                        <button class="tab">🔧 RSS Builder</button>
+                    </div>
+                </header>
+
+                <div class="generator-container">
+                    <div class="search-section">
+                        <div class="search-box">
+                            <input type="text" id="urlInput" placeholder="Enter URL, Topic or Keyword" class="search-input">
+                            <span class="region-flag">🇺🇸</span>
+                        </div>
+                        <button class="btn-generate" id="generateBtn">Generate</button>
+                    </div>
+
+                    <div class="feed-types">
+                        <button class="feed-type-btn active" data-type="websites">🌐 Websites</button>
+                        <button class="feed-type-btn" data-type="topics">💡 Topics</button>
+                        <button class="feed-type-btn" data-type="newsletters">📧 Newsletters</button>
+                    </div>
+
+                    <div class="feed-options">
+                        <h3>Select which RSS feed you would like to create</h3>
+                        <div class="search-feeds">
+                            <input type="text" placeholder="Search" class="search-feeds-input">
+                        </div>
+                        <div class="feed-grid" id="feedGrid">
+                            <div class="feed-card" data-platform="webpage">
+                                <span class="feed-icon">🌐</span>
+                                <span>Webpage to RSS Feed</span>
+                            </div>
+                            <div class="feed-card" data-platform="instagram">
+                                <span class="feed-icon">📷</span>
+                                <span>Instagram RSS Feed</span>
+                            </div>
+                            <div class="feed-card" data-platform="twitter">
+                                <span class="feed-icon">𝕏</span>
+                                <span>X / Twitter RSS Feed</span>
+                            </div>
+                            <div class="feed-card" data-platform="linkedin">
+                                <span class="feed-icon">💼</span>
+                                <span>LinkedIn RSS Feed</span>
+                            </div>
+                            <div class="feed-card" data-platform="google-news">
+                                <span class="feed-icon">📰</span>
+                                <span>Google News RSS Feed</span>
+                            </div>
+                            <div class="feed-card" data-platform="tiktok">
+                                <span class="feed-icon">🎵</span>
+                                <span>TikTok RSS Feed</span>
+                            </div>
+                            <div class="feed-card" data-platform="threads">
+                                <span class="feed-icon">🧵</span>
+                                <span>Threads RSS Feed</span>
+                            </div>
+                            <div class="feed-card" data-platform="reddit">
+                                <span class="feed-icon">🤖</span>
+                                <span>Reddit RSS Feed</span>
+                            </div>
+                            <div class="feed-card" data-platform="facebook">
+                                <span class="feed-icon">👥</span>
+                                <span>Facebook RSS Feed</span>
+                            </div>
+                            <div class="feed-card" data-platform="youtube">
+                                <span class="feed-icon">▶️</span>
+                                <span>YouTube RSS Feed</span>
+                            </div>
+                            <div class="feed-card" data-platform="telegram">
+                                <span class="feed-icon">✈️</span>
+                                <span>Telegram RSS Feed</span>
+                            </div>
+                            <div class="feed-card" data-platform="bluesky">
+                                <span class="feed-icon">🦋</span>
+                                <span>Bluesky RSS Feed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Feeds View -->
+            <div id="feedsView" class="view">
+                <header class="content-header">
+                    <h1>My Feeds</h1>
+                    <button class="btn-primary" id="refreshAllBtn">🔄 Refresh All</button>
+                </header>
+                <div id="feedsList" class="feeds-list">
+                    <!-- Feeds will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Feed Detail View -->
+            <div id="feedDetailView" class="view">
+                <header class="content-header">
+                    <button class="btn-back" id="backBtn">← Back</button>
+                    <h1 id="feedTitle"></h1>
+                </header>
+                <div class="feed-detail-container">
+                    <div class="feed-url-section">
+                        <label>Feed URL</label>
+                        <div class="url-copy-box">
+                            <input type="text" id="feedUrl" readonly>
+                            <button class="btn-copy" id="copyBtn">Copy</button>
+                        </div>
+                    </div>
+                    <div class="feed-actions">
+                        <button class="btn-secondary" id="refreshFeedBtn">🔄 Refresh</button>
+                        <button class="btn-danger" id="deleteFeedBtn">🗑️ Delete</button>
+                    </div>
+                    <div class="feed-items" id="feedItems">
+                        <!-- Feed items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Generating RSS feed...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast"></div>
+
+    <script src="/app.js"></script>
+</body>
+</html>
